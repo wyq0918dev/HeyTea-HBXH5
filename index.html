@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
@@ -58,16 +58,6 @@
 			}
 		</style>
 	</head>
-	<script>
-		function goToPage(pageName) {
-			document.querySelectorAll('.page').forEach(page => {
-				page.style.display = 'none';
-			});
-			document.getElementById('page-' + pageName).style.display = 'flex';
-		}
-		// 默认显示欢迎页
-		goToPage('welcome');
-	</script>
 	<body>
 		<!-- 欢迎页 -->
 		<div id="page-welcome" , class="page">
@@ -85,5 +75,16 @@
 		<div id="page-product" class="page">
 			[产品页 - 第三次课再开发]
 		</div>
+		<!-- JS脚本 -->
+		<script>
+			function goToPage(pageName) {
+				document.querySelectorAll('.page').forEach(page => {
+					page.style.display = 'none';
+				});
+				document.getElementById('page-' + pageName).style.display = 'flex';
+			}
+			// 默认显示欢迎页
+			goToPage('welcome');
+		</script>
 	</body>
 </html>
