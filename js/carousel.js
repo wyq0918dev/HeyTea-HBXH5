@@ -1,15 +1,15 @@
 // 产品列表
 const products = [
     {
-        img: "../img/青团波波.png",
+        img: "./img/青团波波.png",
         desc: "青团波波：艾草清香 x 软糯麻薯"
     },
     {
-        img: "../img/樱花轻乳.png",
+        img: "./img/樱花轻乳.png",
         desc: "樱花轻乳：春日樱花 x 云顶轻乳"
     },
     {
-        img: "../img/龙井拿铁.png",
+        img: "./img/龙井拿铁.png",
         desc: "龙井拿铁：明前龙井 x 醇厚拿铁"
     }
 ];
