@@ -133,6 +133,7 @@
 		/* 互动页面 (后续完善) */
 		#page-interact {
 			background: #f0fdf4;
+			overflow-y: auto;
 		}
 
 		.interact-title {
@@ -170,6 +171,63 @@
 		.back-to-product {
 			margin-top: 20px;
 			background: #2e8b57;
+		}
+
+		.message-board {
+			width: 100%;
+			max-width: 320px;
+			margin-top: 30px;
+			padding-top: 20px;
+			border-top: 1px dashed #ccc;
+		}
+
+		.board-title {
+			font-size: 18px;
+			color: #2e8b57;
+			margin-bottom: 12px;
+		}
+
+		textarea {
+			width: 100%;
+			height: 80px;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 8px;
+			resize: none;
+			font-size: 14px;
+			margin-bottom: 10px;
+		}
+
+		.submit-btn {
+			padding: 8px 20px;
+			background: #4caf50;
+			color: white;
+			border: none;
+			border-radius: 20px;
+			cursor: pointer;
+			font-size: 14px;
+		}
+
+		.message-container {
+			width: 100%;
+			margin-top: 16px;
+			text-align: left;
+		}
+
+		.message-item {
+			background: #fff;
+			padding: 10px;
+			border-radius: 8px;
+			margin-bottom: 8px;
+			font-size: 14px;
+			box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+		}
+
+		.message-tiem {
+			font-size: 12px;
+			color: #999;
+			margin-top: 4px;
+			text-align: right;
 		}
 	</style>
 	<script>
@@ -222,7 +280,7 @@
 			const countElement = document.getElementById('like-count');
 			if (isLiked) {
 				likeCount--;
-				heart.textContent = '♥';
+				heart.textContent = '🩶';
 				heart.classList.remove('liked');
 			} else {
 				likeCount++;
@@ -231,6 +289,41 @@
 			}
 			isLiked = !isLiked;
 			countElement.textContent = `${likeCount} 人点赞`;
+		}
+
+		let messages = [];
+
+		function submitMessage() {
+			const input = document.getElementById('message-input');
+			const text = input.value.trim();
+			if (text === '') {
+				alert('留言内容不能为空哦!~');
+				return;
+			}
+			const newMessage = {
+				text: text,
+				time: new Date().toLocaleDateString('zh-CN', {
+					hour: '2-digit',
+					minute: '2-digit',
+				})
+			};
+			messages.push(newMessage);
+			renderMessage();
+			input.value = '';
+		}
+
+		function renderMessage() {
+			const container = document.getElementById('message-list');
+			container.innerHTML = '';
+			messages.slice().reverse().forEach(message => {
+				const div = document.createElement('div');
+				div.className = 'message-item';
+				div.innerHTML = `
+				${message.text}
+					<div class="message-time">${message.time}</div>
+				`;
+				container.appendChild(div);
+			});
 		}
 	</script>
 </head>
@@ -242,7 +335,7 @@
 			HEYTEA 喜茶
 		</div>
 		<div class="slogan">
-			春日限定·一口尝尽江南春
+			春日限定 · 一口尝尽江南春
 		</div>
 		<button class="btn" onclick="goToPage('product')">
 			立即探索
@@ -273,11 +366,19 @@
 		</div>
 		<div class="like-section">
 			<div class="like-btn" id="heart-icon" onclick="toggleLike()">
-				♥
+				🩶
 			</div>
 			<div class="like-count" id="like-count">
 				0 人点赞
 			</div>
+		</div>
+		<div class="message-board">
+			<div class="board-title">
+				📋留下你的春日感想
+			</div>
+			<textarea id="message-input" placeholder="说说你对喜茶春日新品的感受..."></textarea>
+			<button class="submit-btn" onclick="submitMessage()">发布留言</button>
+			<div class="message-container" id="message-list"></div>
 		</div>
 		<button class="btn back-to-product" onclick="goToPage('product')">
 			返回产品页
