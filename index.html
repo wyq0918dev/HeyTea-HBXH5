@@ -132,7 +132,44 @@
 
 		/* 互动页面 (后续完善) */
 		#page-interact {
-			background: #FFF9F9;
+			background: #f0fdf4;
+		}
+
+		.interact-title {
+			font-size: 22px;
+			color: #2e8b57;
+			margin-bottom: 24px;
+		}
+
+		.like-section {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 16px;
+			width: 100%;
+			max-width: 320px;
+		}
+
+		.like-btn {
+			font-size: 48px;
+			cursor: pointer;
+			user-select: none;
+			transition: transform 0.2s;
+		}
+
+		.like-btn.liked {
+			color: #ff6b6b;
+			transform: scale(1.2);
+		}
+
+		.like-count {
+			font-size: 18px;
+			color: #555;
+		}
+
+		.back-to-product {
+			margin-top: 20px;
+			background: #2e8b57;
 		}
 	</style>
 	<script>
@@ -176,6 +213,25 @@
 			}
 			updateCarousel();
 		}
+
+		let likeCount = 0;
+		let isLiked = false;
+
+		function toggleLike() {
+			const heart = document.getElementById('heart-icon');
+			const countElement = document.getElementById('like-count');
+			if (isLiked) {
+				likeCount--;
+				heart.textContent = '♥';
+				heart.classList.remove('liked');
+			} else {
+				likeCount++;
+				heart.textContent = '❤️';
+				heart.classList.add('liked');
+			}
+			isLiked = !isLiked;
+			countElement.textContent = `${likeCount} 人点赞`;
+		}
 	</script>
 </head>
 
@@ -192,7 +248,7 @@
 			立即探索
 		</button>
 	</div>
-	<!-- 产品页 (轮播图) -->
+	<!-- 产品页 -->
 	<div id="page-product" class="page">
 		<div class="product-title">🌿春日新品上市</div>
 		<div class="carousel-container">
@@ -210,11 +266,24 @@
 			喜欢就互动吧
 		</button>
 	</div>
-	<!-- 互动页面 -->
+	<!-- 互动页 -->
 	<div id="page-interact" class="page">
-		[互动内容 - 后续开发]
+		<div class="interact-title">
+			❤️ 为你最爱的春日饮品点赞
+		</div>
+		<div class="like-section">
+			<div class="like-btn" id="heart-icon" onclick="toggleLike()">
+				♥
+			</div>
+			<div class="like-count" id="like-count">
+				0 人点赞
+			</div>
+		</div>
+		<button class="btn back-to-product" onclick="goToPage('product')">
+			返回产品页
+		</button>
 	</div>
-	<!-- 脚本 -->
+	<!-- 执行脚本 -->
 	<script>
 		// 默认显示欢迎页
 		goToPage('welcome');
