@@ -1,0 +1,28 @@
+#page-welcome {
+    background: linear-gradient(to bottom, #FDE0DC, #F9CBBD);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #C53030;
+    margin-bottom: 16px;
+}
+
+.slogan {
+    font-size: 18px;
+    color: #5A2A27;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+.btn {
+    padding: 12px 30px;
+    background: #C53030;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}

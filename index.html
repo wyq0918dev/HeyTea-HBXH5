@@ -5,339 +5,26 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 	<title>喜茶·春日限定</title>
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-			font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-		}
-
-		.page {
-			width: 100vw;
-			height: 100vh;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			text-align: center;
-			padding: 20px;
-		}
-
-		#page-welcome {
-			background: linear-gradient(to bottom, #FDE0DC, #F9CBBD);
-		}
-
-		.logo {
-			font-size: 28px;
-			font-weight: bold;
-			color: #C53030;
-			margin-bottom: 16px;
-		}
-
-		.slogan {
-			font-size: 18px;
-			color: #5A2A27;
-			max-width: 80%;
-			line-height: 1.5;
-		}
-
-		.btn {
-			padding: 12px 30px;
-			background: #C53030;
-			color: white;
-			border: none;
-			border-radius: 24px;
-			font-size: 16px;
-			cursor: pointer;
-			margin-top: 20px;
-		}
-
-		/* 产品页面背景 */
-		#page-product {
-			background: #FFF9F9;
-		}
-
-		.product-title {
-			font-size: 22px;
-			color: #c53030;
-			margin-bottom: 24px;
-		}
-
-		.product-item {
-			background: white;
-			padding: 16px;
-			border-radius: 12px;
-			margin: 12px 0;
-			width: 100%;
-			max-width: 320px;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-		}
-
-		.product-img {
-			width: 100%;
-			height: 200px;
-			object-fit: cover;
-			border-radius: 8px;
-			margin-bottom: 10px;
-		}
-
-		.product-name {
-			font-weight: bold;
-			font-size: 18px;
-			margin-bottom: 6px;
-		}
-
-		.product-desv {
-			color: #666;
-			font-size: 14px;
-		}
-
-		.carousel-container {
-			width: 100%;
-			max-width: 320px;
-			position: relative;
-		}
-
-		.carousel-image {
-			width: 100%;
-			height: 320px;
-			object-fit: cover;
-			border-radius: 16px;
-			background: #f0f0f0;
-		}
-
-		.carousel-nav {
-			margin-top: 12px;
-			display: flex;
-			justify-content: center;
-			gap: 12px;
-		}
-
-		.nav-btn {
-			padding: 6px 12px;
-			background: #f0f0f0;
-			border: none;
-			border-radius: 4px;
-			font-size: 14px;
-			cursor: pointer;
-		}
-
-		#product-desc-text {
-			margin-top: 16px;
-			font-size: 16px;
-			color: #333;
-			max-width: 320px;
-		}
-
-		/* 互动页面 (后续完善) */
-		#page-interact {
-			background: #f0fdf4;
-			overflow-y: auto;
-		}
-
-		.interact-title {
-			font-size: 22px;
-			color: #2e8b57;
-			margin-bottom: 24px;
-		}
-
-		.like-section {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 16px;
-			width: 100%;
-			max-width: 320px;
-		}
-
-		.like-btn {
-			font-size: 48px;
-			cursor: pointer;
-			user-select: none;
-			transition: transform 0.2s;
-		}
-
-		.like-btn.liked {
-			color: #ff6b6b;
-			transform: scale(1.2);
-		}
-
-		.like-count {
-			font-size: 18px;
-			color: #555;
-		}
-
-		.back-to-product {
-			margin-top: 20px;
-			background: #2e8b57;
-		}
-
-		.message-board {
-			width: 100%;
-			max-width: 320px;
-			margin-top: 30px;
-			padding-top: 20px;
-			border-top: 1px dashed #ccc;
-		}
-
-		.board-title {
-			font-size: 18px;
-			color: #2e8b57;
-			margin-bottom: 12px;
-		}
-
-		textarea {
-			width: 100%;
-			height: 80px;
-			padding: 10px;
-			border: 1px solid #ddd;
-			border-radius: 8px;
-			resize: none;
-			font-size: 14px;
-			margin-bottom: 10px;
-		}
-
-		.submit-btn {
-			padding: 8px 20px;
-			background: #4caf50;
-			color: white;
-			border: none;
-			border-radius: 20px;
-			cursor: pointer;
-			font-size: 14px;
-		}
-
-		.message-container {
-			width: 100%;
-			margin-top: 16px;
-			text-align: left;
-		}
-
-		.message-item {
-			background: #fff;
-			padding: 10px;
-			border-radius: 8px;
-			margin-bottom: 8px;
-			font-size: 14px;
-			box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-		}
-
-		.message-tiem {
-			font-size: 12px;
-			color: #999;
-			margin-top: 4px;
-			text-align: right;
-		}
-	</style>
-	<script>
-		function goToPage(pageName) {
-			document.querySelectorAll('.page').forEach(page => {
-				page.style.display = 'none';
-			});
-			document.getElementById('page-' + pageName).style.display = 'flex';
-		}
-
-		const products = [
-			{
-				img: "./img/青团波波.png",
-				desc: "青团波波：艾草清香 x 软糯麻薯"
-			},
-			{
-				img: "./img/樱花轻乳.png",
-				desc: "樱花轻乳：春日樱花 x 云顶轻乳"
-			},
-			{
-				img: "./img/龙井拿铁.png",
-				desc: "龙井拿铁：明前龙井 x 醇厚拿铁"
-			}
-		];
-
-		let currentProductIndex = 0;
-
-		function updateCarousel() {
-			const item = products[currentProductIndex];
-			document.getElementById('carousel-image').src = item.img;
-			document.getElementById('product-desc-text').innerText = item.desc;
-			document.getElementById('product-index').innerText = `${currentProductIndex + 1} / ${products.length}`;
-		}
-
-		function switchProduct(direction) {
-			currentProductIndex += direction;
-			if (currentProductIndex < 0) {
-				currentProductIndex = products.length - 1;
-			} else if (currentProductIndex >= products.length) {
-				currentProductIndex = 0;
-			}
-			updateCarousel();
-		}
-
-		let likeCount = 0;
-		let isLiked = false;
-
-		function toggleLike() {
-			const heart = document.getElementById('heart-icon');
-			const countElement = document.getElementById('like-count');
-			if (isLiked) {
-				likeCount--;
-				heart.textContent = '🩶';
-				heart.classList.remove('liked');
-			} else {
-				likeCount++;
-				heart.textContent = '❤️';
-				heart.classList.add('liked');
-			}
-			isLiked = !isLiked;
-			countElement.textContent = `${likeCount} 人点赞`;
-		}
-
-		let messages = [];
-
-		function submitMessage() {
-			const input = document.getElementById('message-input');
-			const text = input.value.trim();
-			if (text === '') {
-				alert('留言内容不能为空哦!~');
-				return;
-			}
-			const newMessage = {
-				text: text,
-				time: new Date().toLocaleDateString('zh-CN', {
-					hour: '2-digit',
-					minute: '2-digit',
-				})
-			};
-			messages.push(newMessage);
-			renderMessage();
-			input.value = '';
-		}
-
-		function renderMessage() {
-			const container = document.getElementById('message-list');
-			container.innerHTML = '';
-			messages.slice().reverse().forEach(message => {
-				const div = document.createElement('div');
-				div.className = 'message-item';
-				div.innerHTML = `
-				${message.text}
-					<div class="message-time">${message.time}</div>
-				`;
-				container.appendChild(div);
-			});
-		}
-	</script>
+	<link rel="stylesheet" href="./css/common.css">
+	<link rel="stylesheet" href="./css/welcome.css">
+	<link rel="stylesheet" href="./css/product.css">
+	<link rel="stylesheet" href="./css/interact.css">
+	<script src="./js/navigator.js"></script>
+	<script src="./js/carousel.js"></script>
+	<script src="./js/like.js"></script>
+	<script src="./js/message.js"></script>
 </head>
 
 <body>
 	<!-- 欢迎页 -->
-	<div id="page-welcome" , class="page">
+	<div id="page-welcome" class="page">
 		<div class="logo">
 			HEYTEA 喜茶
 		</div>
 		<div class="slogan">
 			春日限定 · 一口尝尽江南春
 		</div>
-		<button class="btn" onclick="goToPage('product')">
+		<button class="btn" onclick="goToPage(PageEnums.productPage)">
 			立即探索
 		</button>
 	</div>
@@ -355,7 +42,7 @@
 		<div id="product-desc-text">
 			青团波波:艾草清香 x 软糯麻薯
 		</div>
-		<button class="btn" onclick="goToPage('interact')">
+		<button class="btn" onclick="goToPage(PageEnums.interactPage)">
 			喜欢就互动吧
 		</button>
 	</div>
@@ -380,14 +67,15 @@
 			<button class="submit-btn" onclick="submitMessage()">发布留言</button>
 			<div class="message-container" id="message-list"></div>
 		</div>
-		<button class="btn back-to-product" onclick="goToPage('product')">
+		<button class="back-to-product" onclick="goToPage(PageEnums.productPage)">
 			返回产品页
 		</button>
 	</div>
 	<!-- 执行脚本 -->
 	<script>
 		// 默认显示欢迎页
-		goToPage('welcome');
+		goToPage(PageEnums.welcomePage);
+		// 初始化轮播图
 		updateCarousel();
 	</script>
 </body>
