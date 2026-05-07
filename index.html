@@ -1,83 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>喜茶 · 春日限定</title>
+    <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/welcome.css" />
+    <link rel="stylesheet" href="./css/product.css" />
+    <link rel="stylesheet" href="./css/interact.css" />
+    <script src="./js/navigator.js"></script>
+    <script src="./js/carousel.js"></script>
+    <script src="./js/like.js"></script>
+    <script src="./js/message.js"></script>
+  </head>
 
-<head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-	<title>喜茶 · 春日限定</title>
-	<link rel="stylesheet" href="./css/common.css">
-	<link rel="stylesheet" href="./css/welcome.css">
-	<link rel="stylesheet" href="./css/product.css">
-	<link rel="stylesheet" href="./css/interact.css">
-	<script src="./js/navigator.js"></script>
-	<script src="./js/carousel.js"></script>
-	<script src="./js/like.js"></script>
-	<script src="./js/message.js"></script>
-</head>
-
-<body>
-	<!-- 欢迎页 -->
-	<div id="page-welcome" class="page">
-		<div class="logo">
+  <body>
+    <!-- 欢迎页 -->
+    <div id="page-welcome" class="page">
+      <!-- <div class="logo">
 			HEYTEA 喜茶
-		</div>
-		<div class="slogan">
-			春日限定 · 一口尝尽江南春
-		</div>
-		<button class="btn" onclick="goToPage(PageEnums.productPage)">
-			立即探索
-		</button>
-	</div>
-	<!-- 产品页 -->
-	<div id="page-product" class="page">
-		<div class="product-title">🌿春日新品上市</div>
-		<div class="carousel-container">
-			<img class="carousel-image" id="carousel-image" src="./img/青团波波.png" alt="新品饮品">
-		</div>
-		<div class="carousel-nav">
-			<button class="nav-btn" onclick="switchProduct(-1)">&lt;</button>
-			<span id="product-index">1 / 3</span>
-			<button class="nav-btn" onclick="switchProduct(1)">&gt;</button>
-		</div>
-		<div id="product-desc-text">
-			青团波波:艾草清香 x 软糯麻薯
-		</div>
-		<button class="btn" onclick="goToPage(PageEnums.interactPage)">
-			喜欢就互动吧
-		</button>
-	</div>
-	<!-- 互动页 -->
-	<div id="page-interact" class="page">
-		<div class="interact-title">
-			❤️ 为你最爱的春日饮品点赞
-		</div>
-		<div class="like-section">
-			<div class="like-btn" id="heart-icon" onclick="toggleLike()">
-				🩶
-			</div>
-			<div class="like-count" id="like-count">
-				0 人点赞
-			</div>
-		</div>
-		<div class="message-board">
-			<div class="board-title">
-				📋留下你的春日感想
-			</div>
-			<textarea id="message-input" placeholder="说说你对喜茶春日新品的感受..."></textarea>
-			<button class="submit-btn" onclick="submitMessage()">发布留言</button>
-			<div class="message-container" id="message-list"></div>
-		</div>
-		<button class="back-to-product" onclick="goToPage(PageEnums.productPage)">
-			返回产品页
-		</button>
-	</div>
-	<!-- 执行脚本 -->
-	<script>
-		// 默认显示欢迎页
-		goToPage(PageEnums.welcomePage);
-		// 初始化轮播图
-		updateCarousel();
-	</script>
-</body>
-
+		</div> -->
+      <img src="./img/logo.jpg" alt="Logo" class="logo" />
+      <div class="slogan">
+        <!-- 春日限定 · 一口尝尽江南春 -->
+        匠心独到的完成每一杯茶<br />
+        调制出属于您的味道
+      </div>
+      <button class="btn" onclick="goToPage(PageEnums.productPage)">
+        👉点击了解更多👈
+      </button>
+    </div>
+    <!-- 产品页 -->
+    <div id="page-product" class="page">
+      <div class="product-title">
+        1点点人气饮品<br />
+        Popular Drinks
+      </div>
+      <div class="carousel-container">
+        <img
+          class="carousel-image"
+          id="carousel-image"
+          src="./img/清香乌龙茶.png"
+          alt="img"
+        />
+      </div>
+      <div id="product-desc-text">清香乌龙茶</div>
+      <div class="carousel-nav">
+        <button class="nav-btn" onclick="switchProduct(-1)">&lt;</button>
+        <span id="product-index">1 / 5</span>
+        <button class="nav-btn" onclick="switchProduct(1)">&gt;</button>
+      </div>
+      <button class="btn" onclick="goToPage(PageEnums.interactPage)">
+        喜欢就互动吧
+      </button>
+    </div>
+    <!-- 互动页 -->
+    <div id="page-interact" class="page">
+      <div class="interact-title">❤️ 为你最爱的饮品点赞</div>
+      <div class="like-section">
+        <div class="like-btn" id="heart-icon" onclick="toggleLike()">🩶</div>
+        <div class="like-count" id="like-count">0 人点赞</div>
+      </div>
+      <div class="message-board">
+        <div class="board-title">📋品鉴美味留下感想</div>
+        <textarea id="message-input" placeholder="爽之，快哉快哉..."></textarea>
+        <button class="submit-btn" onclick="submitMessage()">发布留言</button>
+        <div class="message-container" id="message-list"></div>
+      </div>
+      <button class="back-to-product" onclick="goToPage(PageEnums.productPage)">
+        返回产品页
+      </button>
+    </div>
+    <!-- 执行脚本 -->
+    <script>
+      // 默认显示欢迎页
+      goToPage(PageEnums.welcomePage);
+      // 初始化轮播图
+      updateCarousel();
+      autoUpdateCarousel();
+    </script>
+  </body>
 </html>
