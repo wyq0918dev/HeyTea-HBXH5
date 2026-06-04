@@ -1,111 +1,309 @@
-/* 互动页面 (后续完善) */
-#page-interact {
-    background: #E9EFEA;
-    overflow-y: auto;
+/* ==================== 互动页背景 ==================== */
+#interact-page {
+  background: linear-gradient(180deg, #f8f6f3 0%, #f0ece6 100%);
+  justify-content: flex-start;
+  padding-top: 0;
+}
+
+/* ==================== 互动页头部 ==================== */
+.interact-header {
+  width: 100%;
+  padding: 24px 32px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  background: rgba(248, 246, 243, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 10;
+  border-bottom: 1px solid rgba(139, 115, 85, 0.1);
+}
+
+.interact-title-group {
+  text-align: center;
+  flex: 1;
 }
 
 .interact-title {
-    font-size: 22px;
-    color: #186B53;
-    margin-bottom: 24px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #3d3027;
+  letter-spacing: 3px;
 }
 
+.interact-subtitle {
+  font-size: 12px;
+  color: #a09585;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ==================== 互动内容区 ==================== */
+.interact-content {
+  width: 100%;
+  max-width: 560px;
+  padding: 32px 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+/* ==================== 点赞区 ==================== */
 .like-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-    max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 36px 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04),
+              0 8px 32px rgba(139, 115, 85, 0.08);
 }
 
-.like-btn {
-    font-size: 48px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    user-select: none;
-    transition: transform 0.2s;
+.like-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(139, 115, 85, 0.06);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.like-btn.liked {
-    color: #ff6b6b;
-    transform: scale(1.2);
+.like-icon-wrapper:hover {
+  background: rgba(139, 115, 85, 0.12);
+  transform: scale(1.05);
+}
+
+.like-icon-wrapper:active {
+  transform: scale(0.95);
+}
+
+.like-icon-wrapper.liked {
+  background: rgba(192, 57, 43, 0.08);
+  animation: likePopIn 0.5s ease-out;
+}
+
+.like-icon-wrapper.liked .like-heart {
+  filter: drop-shadow(0 2px 8px rgba(192, 57, 43, 0.3));
+}
+
+@keyframes likePopIn {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.2); }
+  60% { transform: scale(0.9); }
+  100% { transform: scale(1); }
 }
 
 .like-count {
-    font-size: 18px;
-    color: #555;
+  font-size: 15px;
+  color: #a09585;
+  letter-spacing: 1px;
+  font-weight: 400;
 }
 
-.back-to-product {
-    padding: 12px 30px;
-    background: #186B53;
-    color: white;
-    border: none;
-    border-radius: 24px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.back-to-product:hover {
-    background: #A5F2D4;
-    color: #00513D;
-}
-
+/* ==================== 留言区 ==================== */
 .message-board {
-    width: 100%;
-    max-width: 320px;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px dashed #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .board-title {
-    font-size: 18px;
-    color: #186B53;
-    margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #3d3027;
+  letter-spacing: 1px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(139, 115, 85, 0.15);
+}
+
+.message-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 textarea {
-    width: 100%;
-    height: 80px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    resize: none;
-    font-size: 14px;
-    margin-bottom: 10px;
+  width: 100%;
+  height: 100px;
+  padding: 16px;
+  border: 1px solid rgba(139, 115, 85, 0.2);
+  border-radius: 12px;
+  background: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  color: #3d3027;
+  resize: none;
+  line-height: 1.6;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #8B7355;
+  box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+}
+
+textarea::placeholder {
+  color: #c4b8a8;
 }
 
 .submit-btn {
-    padding: 8px 20px;
-    background: #186B53;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
+  align-self: flex-end;
+  padding: 10px 28px;
+  background: #8B7355;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(139, 115, 85, 0.25);
 }
 
+.submit-btn:hover {
+  background: #6B5B45;
+  box-shadow: 0 4px 16px rgba(139, 115, 85, 0.35);
+  transform: translateY(-1px);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 6px rgba(139, 115, 85, 0.2);
+}
+
+/* ==================== 留言列表 ==================== */
 .message-container {
-    width: 100%;
-    margin-top: 16px;
-    text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .message-item {
-    background: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    font-size: 14px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03),
+              0 4px 16px rgba(139, 115, 85, 0.06);
+  animation: fadeInUp 0.4s ease-out both;
+  transition: box-shadow 0.3s ease;
 }
 
-.message-tiem {
-    font-size: 12px;
-    color: #999;
-    margin-top: 4px;
-    text-align: right;
+.message-item:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05),
+              0 6px 20px rgba(139, 115, 85, 0.1);
+}
+
+.message-text {
+  font-size: 14px;
+  color: #3d3027;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+}
+
+.message-time {
+  font-size: 12px;
+  color: #bfb5a5;
+  margin-top: 8px;
+  text-align: right;
+  letter-spacing: 0.5px;
+}
+
+/* ==================== 响应式适配 ==================== */
+@media (max-width: 768px) {
+  .interact-header {
+    padding: 16px 20px 14px;
+  }
+
+  .interact-title {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  .interact-content {
+    padding: 24px 20px 40px;
+  }
+
+  .like-section {
+    padding: 28px 20px;
+  }
+
+  .like-icon-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .interact-header {
+    padding: 12px 16px 10px;
+    gap: 12px;
+  }
+
+  .back-btn span {
+    display: none;
+  }
+
+  .interact-title {
+    font-size: 16px;
+  }
+
+  .interact-subtitle {
+    font-size: 10px;
+  }
+
+  .interact-content {
+    padding: 16px 16px 32px;
+    gap: 24px;
+  }
+
+  .like-section {
+    padding: 24px 16px;
+  }
+
+  .like-icon-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .like-icon-wrapper .like-heart {
+    width: 36px;
+    height: 36px;
+  }
+
+  .board-title {
+    font-size: 16px;
+  }
+
+  textarea {
+    height: 80px;
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .submit-btn {
+    padding: 8px 22px;
+    font-size: 13px;
+  }
+
+  .message-item {
+    padding: 12px;
+  }
+
+  .message-text {
+    font-size: 13px;
+  }
 }

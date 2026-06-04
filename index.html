@@ -2,82 +2,243 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>喜茶 · 春日限定</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>一点点 · YiDianDian</title>
     <link rel="stylesheet" href="./css/common.css" />
-    <link rel="stylesheet" href="./css/welcome.css" />
-    <link rel="stylesheet" href="./css/product.css" />
+    <link rel="stylesheet" href="./css/home.css" />
+    <link rel="stylesheet" href="./css/products.css" />
     <link rel="stylesheet" href="./css/interact.css" />
-    <script src="./js/navigator.js"></script>
-    <script src="./js/carousel.js"></script>
-    <script src="./js/like.js"></script>
-    <script src="./js/message.js"></script>
   </head>
 
   <body>
-    <!-- 欢迎页 -->
-    <div id="page-welcome" class="page">
-      <!-- <div class="logo">
-			HEYTEA 喜茶
-		</div> -->
-      <img src="./img/logo.jpg" alt="Logo" class="logo" />
-      <div class="slogan">
-        <!-- 春日限定 · 一口尝尽江南春 -->
-        匠心独到的完成每一杯茶<br />
-        调制出属于您的味道
+    <!-- 主页 -->
+    <div id="home-page" class="page">
+      <div class="home-bg-decoration">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
       </div>
-      <button class="btn" onclick="goToPage(PageEnums.productPage)">
-        👉点击了解更多👈
-      </button>
+      <header class="brand-header">
+        <div class="logo-wrapper">
+          <img src="./img/logo.jpg" alt="一点点Logo" class="brand-logo" />
+        </div>
+        <h1 class="brand-name">1点点</h1>
+        <p class="brand-subtitle">YiDianDian Since 2010</p>
+        <div class="brand-divider"></div>
+        <p class="brand-slogan">用心调制每一杯<br />发现属于你的味道</p>
+      </header>
+      <nav class="home-nav">
+        <button class="btn-primary" onclick="switchPage('products-page')">
+          <span>探索饮品</span>
+          <svg class="arrow-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </nav>
+      <footer class="home-footer">
+        <span>新鲜手作 · 品质坚持</span>
+      </footer>
     </div>
+
     <!-- 产品页 -->
-    <div id="page-product" class="page">
-      <div class="product-title">
-        1点点人气饮品<br />
-        Popular Drinks
+    <div id="products-page" class="page">
+      <header class="products-header">
+        <button class="back-btn" onclick="switchPage('home-page')">
+          <svg class="back-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>返回</span>
+        </button>
+        <div class="products-title-group">
+          <h2 class="products-title">人气饮品</h2>
+          <p class="products-subtitle">Popular Drinks</p>
+        </div>
+      </header>
+      <div class="carousel-wrapper">
+        <div class="carousel-card" id="carousel-card">
+          <div class="carousel-img-wrapper">
+            <img id="carousel-image" src="./img/清香乌龙茶.png" alt="清香乌龙茶" class="carousel-img" />
+          </div>
+          <div class="carousel-info">
+            <h3 class="carousel-name" id="carousel-name">清香乌龙茶</h3>
+            <p class="carousel-desc" id="carousel-desc">清雅回甘，茶香悠远</p>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button class="carousel-btn carousel-prev" onclick="switchProduct(-1)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="carousel-dots" id="carousel-dots"></div>
+          <button class="carousel-btn carousel-next" onclick="switchProduct(1)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
       </div>
-      <div class="carousel-container">
-        <img
-          class="carousel-image"
-          id="carousel-image"
-          src="./img/清香乌龙茶.png"
-          alt="img"
-        />
-      </div>
-      <div id="product-desc-text">清香乌龙茶</div>
-      <div class="carousel-nav">
-        <button class="nav-btn" onclick="switchProduct(-1)">&lt;</button>
-        <span id="product-index">1 / 5</span>
-        <button class="nav-btn" onclick="switchProduct(1)">&gt;</button>
-      </div>
-      <button class="btn" onclick="goToPage(PageEnums.interactPage)">
-        喜欢就互动吧
-      </button>
+      <nav class="products-footer-nav">
+        <button class="btn-primary" onclick="switchPage('interact-page')">
+          <span>喜欢就互动吧</span>
+          <svg class="arrow-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </nav>
     </div>
+
     <!-- 互动页 -->
-    <div id="page-interact" class="page">
-      <div class="interact-title">❤️ 为你最爱的饮品点赞</div>
-      <div class="like-section">
-        <div class="like-btn" id="heart-icon" onclick="toggleLike()">🩶</div>
-        <div class="like-count" id="like-count">0 人点赞</div>
+    <div id="interact-page" class="page">
+      <header class="interact-header">
+        <button class="back-btn" onclick="switchPage('products-page')">
+          <svg class="back-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>返回</span>
+        </button>
+        <div class="interact-title-group">
+          <h2 class="interact-title">互动专区</h2>
+          <p class="interact-subtitle">Interaction</p>
+        </div>
+      </header>
+      <div class="interact-content">
+        <!-- 点赞区 -->
+        <div class="like-section">
+          <div class="like-icon-wrapper" id="heart-icon" onclick="toggleLike()">
+            <svg class="like-heart" width="48" height="48" viewBox="0 0 24 24" fill="#a09585" stroke="#a09585" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div class="like-count" id="like-count">0 人点赞</div>
+        </div>
+        <!-- 留言区 -->
+        <div class="message-board">
+          <div class="board-title">品鉴美味留下感想</div>
+          <div class="message-input-wrapper">
+            <textarea id="message-input" placeholder="写下你的品鉴感想..."></textarea>
+            <button class="submit-btn" onclick="submitMessage()">发布留言</button>
+          </div>
+          <div class="message-container" id="message-list"></div>
+        </div>
       </div>
-      <div class="message-board">
-        <div class="board-title">📋品鉴美味留下感想</div>
-        <textarea id="message-input" placeholder="爽之，快哉快哉..."></textarea>
-        <button class="submit-btn" onclick="submitMessage()">发布留言</button>
-        <div class="message-container" id="message-list"></div>
-      </div>
-      <button class="back-to-product" onclick="goToPage(PageEnums.productPage)">
-        返回产品页
-      </button>
     </div>
-    <!-- 执行脚本 -->
+
     <script>
-      // 默认显示欢迎页
-      goToPage(PageEnums.welcomePage);
-      // 初始化轮播图
-      updateCarousel();
-      autoUpdateCarousel();
+      // 产品数据
+      const products = [
+        { img: "./img/清香乌龙茶.png", name: "清香乌龙茶", desc: "清雅回甘，茶香悠远" },
+        { img: "./img/红茶玛奇朵.png", name: "红茶玛奇朵", desc: "醇厚红茶，绵密奶盖" },
+        { img: "./img/波霸奶茶.png", name: "波霸奶茶", desc: "Q弹波霸，经典之选" },
+        { img: "./img/四季春.png", name: "四季春+珍波椰", desc: "春意盎然，三重口感" },
+        { img: "./img/牛乳红茶.png", name: "牛乳红茶", desc: "鲜乳交融，丝滑醇香" },
+      ];
+
+      let currentIndex = 0;
+      let autoTimer = null;
+
+      function updateCarousel() {
+        const item = products[currentIndex];
+        const card = document.getElementById('carousel-card');
+        // 淡出
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.96)';
+        setTimeout(function() {
+          document.getElementById('carousel-image').src = item.img;
+          document.getElementById('carousel-image').alt = item.name;
+          document.getElementById('carousel-name').textContent = item.name;
+          document.getElementById('carousel-desc').textContent = item.desc;
+          // 淡入
+          card.style.opacity = '1';
+          card.style.transform = 'scale(1)';
+        }, 250);
+        updateDots();
+      }
+
+      function switchProduct(direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) currentIndex = products.length - 1;
+        if (currentIndex >= products.length) currentIndex = 0;
+        updateCarousel();
+        resetAutoPlay();
+      }
+
+      function goToSlide(index) {
+        currentIndex = index;
+        updateCarousel();
+        resetAutoPlay();
+      }
+
+      function updateDots() {
+        const dotsContainer = document.getElementById('carousel-dots');
+        dotsContainer.innerHTML = '';
+        products.forEach(function(_, i) {
+          const dot = document.createElement('div');
+          dot.className = 'carousel-dot' + (i === currentIndex ? ' active' : '');
+          dot.onclick = function() { goToSlide(i); };
+          dotsContainer.appendChild(dot);
+        });
+      }
+
+      function resetAutoPlay() {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(function() { switchProduct(1); }, 3500);
+      }
+
+      // 点赞
+      let likeCount = 0;
+      let isLiked = false;
+
+      function toggleLike() {
+        const heart = document.querySelector('#heart-icon .like-heart');
+        const countElement = document.getElementById('like-count');
+        const wrapper = document.getElementById('heart-icon');
+        if (isLiked) {
+          likeCount--;
+          heart.setAttribute('fill', '#a09585');
+          heart.setAttribute('stroke', '#a09585');
+          wrapper.classList.remove('liked');
+        } else {
+          likeCount++;
+          heart.setAttribute('fill', '#c0392b');
+          heart.setAttribute('stroke', '#c0392b');
+          wrapper.classList.add('liked');
+        }
+        isLiked = !isLiked;
+        countElement.textContent = likeCount + ' 人点赞';
+      }
+
+      // 留言
+      let messages = [];
+
+      function submitMessage() {
+        const input = document.getElementById('message-input');
+        const text = input.value.trim();
+        if (text === '') {
+          alert('留言内容不能为空哦！');
+          return;
+        }
+        const newMessage = {
+          text: text,
+          time: new Date().toLocaleDateString('zh-CN', {
+            hour: '2-digit',
+            minute: '2-digit',
+          })
+        };
+        messages.push(newMessage);
+        renderMessage();
+        input.value = '';
+      }
+
+      function renderMessage() {
+        const container = document.getElementById('message-list');
+        container.innerHTML = '';
+        messages.slice().reverse().forEach(function(message) {
+          const div = document.createElement('div');
+          div.className = 'message-item';
+          div.innerHTML = '<div class="message-text">' + message.text + '</div><div class="message-time">' + message.time + '</div>';
+          container.appendChild(div);
+        });
+      }
+
+      // 页面切换
+      function switchPage(pageId) {
+        document.querySelectorAll('.page').forEach(function(page) {
+          page.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+      }
+      // 默认显示主页
+      switchPage('home-page');
+      // 初始化轮播
+      updateDots();
+      resetAutoPlay();
     </script>
   </body>
 </html>
