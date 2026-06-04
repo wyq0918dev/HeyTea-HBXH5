@@ -4,10 +4,932 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>一点点 · YiDianDian</title>
-    <link rel="stylesheet" href="./css/common.css" />
-    <link rel="stylesheet" href="./css/home.css" />
-    <link rel="stylesheet" href="./css/products.css" />
-    <link rel="stylesheet" href="./css/interact.css" />
+    <style>
+      /* ==================== 全局重置与基础 ==================== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        color: #2c3e50;
+        background: #f8f6f3;
+        overflow: hidden;
+        min-height: 100vh;
+      }
+
+      /* ==================== 页面容器 ==================== */
+      .page {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                    visibility 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .page.active {
+        opacity: 1;
+        visibility: visible;
+        z-index: 2;
+      }
+
+      /* ==================== 滚动条美化 ==================== */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(139, 115, 85, 0.3);
+        border-radius: 3px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(139, 115, 85, 0.5);
+      }
+
+      /* ==================== 通用按钮样式 ==================== */
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 36px;
+        background: #8B7355;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(139, 115, 85, 0.35);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.6s;
+      }
+
+      .btn-primary:hover {
+        background: #6B5B45;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(139, 115, 85, 0.45);
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .btn-primary:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 10px rgba(139, 115, 85, 0.3);
+      }
+
+      /* ==================== 通用动画 ==================== */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+
+      /* ==================== 主页背景 ==================== */
+      #home-page {
+        background: linear-gradient(160deg, #f8f6f3 0%, #efe9e0 40%, #e8ddd0 100%);
+        position: relative;
+      }
+
+      /* ==================== 装饰圆形背景 ==================== */
+      .home-bg-decoration {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.08;
+      }
+
+      .circle-1 {
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, #8B7355, transparent 70%);
+        top: -150px;
+        right: -100px;
+        animation: float 8s ease-in-out infinite;
+      }
+
+      .circle-2 {
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, #C4A882, transparent 70%);
+        bottom: -80px;
+        left: -80px;
+        animation: float 10s ease-in-out infinite 2s;
+      }
+
+      .circle-3 {
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, #8B7355, transparent 70%);
+        top: 40%;
+        left: 60%;
+        animation: float 6s ease-in-out infinite 4s;
+      }
+
+      /* ==================== 品牌头部 ==================== */
+      .brand-header {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        animation: fadeInUp 0.8s ease-out both;
+      }
+
+      .logo-wrapper {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(139, 115, 85, 0.2),
+                    0 2px 8px rgba(0, 0, 0, 0.06);
+        border: 3px solid rgba(255, 255, 255, 0.8);
+        margin-bottom: 28px;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .logo-wrapper:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 40px rgba(139, 115, 85, 0.3),
+                    0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .brand-logo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .brand-name {
+        font-size: 48px;
+        font-weight: 700;
+        color: #3d3027;
+        letter-spacing: 6px;
+        margin-bottom: 8px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .brand-subtitle {
+        font-size: 14px;
+        color: #8B7355;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        font-weight: 400;
+        margin-bottom: 24px;
+      }
+
+      .brand-divider {
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #8B7355, transparent);
+        margin-bottom: 24px;
+      }
+
+      .brand-slogan {
+        font-size: 18px;
+        color: #5c4f3d;
+        line-height: 1.8;
+        letter-spacing: 2px;
+        font-weight: 300;
+      }
+
+      /* ==================== 导航按钮 ==================== */
+      .home-nav {
+        position: relative;
+        z-index: 1;
+        margin-top: 48px;
+        animation: fadeInUp 0.8s ease-out 0.3s both;
+      }
+
+      .btn-primary .arrow-icon {
+        transition: transform 0.3s ease;
+      }
+
+      .btn-primary:hover .arrow-icon {
+        transform: translateX(4px);
+      }
+
+      /* ==================== 页脚 ==================== */
+      .home-footer {
+        position: absolute;
+        bottom: 32px;
+        z-index: 1;
+        animation: fadeIn 1s ease-out 0.6s both;
+      }
+
+      .home-footer span {
+        font-size: 12px;
+        color: #a09585;
+        letter-spacing: 3px;
+        font-weight: 300;
+      }
+
+      /* ==================== 产品页背景 ==================== */
+      #products-page {
+        background: linear-gradient(180deg, #f8f6f3 0%, #f0ece6 100%);
+        justify-content: flex-start;
+        padding-top: 0;
+      }
+
+      /* ==================== 产品页头部 ==================== */
+      .products-header {
+        width: 100%;
+        padding: 24px 32px 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        position: sticky;
+        top: 0;
+        background: rgba(248, 246, 243, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        z-index: 10;
+        border-bottom: 1px solid rgba(139, 115, 85, 0.1);
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        background: transparent;
+        color: #8B7355;
+        border: 1px solid rgba(139, 115, 85, 0.25);
+        border-radius: 50px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+      }
+
+      .back-btn:hover {
+        background: rgba(139, 115, 85, 0.08);
+        border-color: rgba(139, 115, 85, 0.5);
+      }
+
+      .back-btn:active {
+        transform: scale(0.96);
+      }
+
+      .back-btn .back-icon {
+        transition: transform 0.3s ease;
+      }
+
+      .back-btn:hover .back-icon {
+        transform: translateX(-3px);
+      }
+
+      .products-title-group {
+        text-align: center;
+        flex: 1;
+      }
+
+      .products-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #3d3027;
+        letter-spacing: 3px;
+      }
+
+      .products-subtitle {
+        font-size: 12px;
+        color: #a09585;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-top: 2px;
+      }
+
+      /* ==================== 轮播容器 ==================== */
+      .carousel-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 480px;
+        padding: 32px 24px 24px;
+        gap: 28px;
+      }
+
+      /* ==================== 轮播卡片 ==================== */
+      .carousel-card {
+        width: 100%;
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05),
+                    0 12px 48px rgba(139, 115, 85, 0.1);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        animation: fadeInUp 0.6s ease-out both;
+      }
+
+      .carousel-img-wrapper {
+        width: 100%;
+        height: 360px;
+        overflow: hidden;
+        position: relative;
+        background: linear-gradient(135deg, #f5f0ea, #ebe4da);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .carousel-img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      .carousel-info {
+        padding: 24px 28px 28px;
+        text-align: center;
+      }
+
+      .carousel-name {
+        font-size: 22px;
+        font-weight: 600;
+        color: #3d3027;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+      }
+
+      .carousel-desc {
+        font-size: 14px;
+        color: #a09585;
+        letter-spacing: 1px;
+        font-weight: 300;
+      }
+
+      /* ==================== 轮播控制区 ==================== */
+      .carousel-controls {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .carousel-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 1px solid rgba(139, 115, 85, 0.25);
+        background: rgba(255, 255, 255, 0.8);
+        color: #8B7355;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+      }
+
+      .carousel-btn:hover {
+        background: #8B7355;
+        color: #fff;
+        border-color: #8B7355;
+        box-shadow: 0 4px 16px rgba(139, 115, 85, 0.3);
+        transform: scale(1.05);
+      }
+
+      .carousel-btn:active {
+        transform: scale(0.95);
+      }
+
+      /* ==================== 指示点 ==================== */
+      .carousel-dots {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .carousel-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(139, 115, 85, 0.2);
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .carousel-dot.active {
+        width: 28px;
+        border-radius: 4px;
+        background: #8B7355;
+      }
+
+      .carousel-dot:hover:not(.active) {
+        background: rgba(139, 115, 85, 0.4);
+      }
+
+      /* ==================== 产品页底部导航 ==================== */
+      .products-footer-nav {
+        padding: 0 32px 32px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        animation: fadeInUp 0.6s ease-out 0.4s both;
+      }
+
+      /* ==================== 互动页背景 ==================== */
+      #interact-page {
+        background: linear-gradient(180deg, #f8f6f3 0%, #f0ece6 100%);
+        justify-content: flex-start;
+        padding-top: 0;
+      }
+
+      /* ==================== 互动页头部 ==================== */
+      .interact-header {
+        width: 100%;
+        padding: 24px 32px 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        position: sticky;
+        top: 0;
+        background: rgba(248, 246, 243, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        z-index: 10;
+        border-bottom: 1px solid rgba(139, 115, 85, 0.1);
+      }
+
+      .interact-title-group {
+        text-align: center;
+        flex: 1;
+      }
+
+      .interact-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #3d3027;
+        letter-spacing: 3px;
+      }
+
+      .interact-subtitle {
+        font-size: 12px;
+        color: #a09585;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-top: 2px;
+      }
+
+      /* ==================== 互动内容区 ==================== */
+      .interact-content {
+        width: 100%;
+        max-width: 560px;
+        padding: 32px 32px 48px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        animation: fadeInUp 0.6s ease-out both;
+      }
+
+      /* ==================== 点赞区 ==================== */
+      .like-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: 36px 24px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04),
+                    0 8px 32px rgba(139, 115, 85, 0.08);
+      }
+
+      .like-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(139, 115, 85, 0.06);
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .like-icon-wrapper:hover {
+        background: rgba(139, 115, 85, 0.12);
+        transform: scale(1.05);
+      }
+
+      .like-icon-wrapper:active {
+        transform: scale(0.95);
+      }
+
+      .like-icon-wrapper.liked {
+        background: rgba(192, 57, 43, 0.08);
+        animation: likePopIn 0.5s ease-out;
+      }
+
+      .like-icon-wrapper.liked .like-heart {
+        filter: drop-shadow(0 2px 8px rgba(192, 57, 43, 0.3));
+      }
+
+      @keyframes likePopIn {
+        0% { transform: scale(1); }
+        30% { transform: scale(1.2); }
+        60% { transform: scale(0.9); }
+        100% { transform: scale(1); }
+      }
+
+      .like-count {
+        font-size: 15px;
+        color: #a09585;
+        letter-spacing: 1px;
+        font-weight: 400;
+      }
+
+      /* ==================== 留言区 ==================== */
+      .message-board {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .board-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #3d3027;
+        letter-spacing: 1px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(139, 115, 85, 0.15);
+      }
+
+      .message-input-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      textarea {
+        width: 100%;
+        height: 100px;
+        padding: 16px;
+        border: 1px solid rgba(139, 115, 85, 0.2);
+        border-radius: 12px;
+        background: #fff;
+        font-family: inherit;
+        font-size: 14px;
+        color: #3d3027;
+        resize: none;
+        line-height: 1.6;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #8B7355;
+        box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+      }
+
+      textarea::placeholder {
+        color: #c4b8a8;
+      }
+
+      .submit-btn {
+        align-self: flex-end;
+        padding: 10px 28px;
+        background: #8B7355;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(139, 115, 85, 0.25);
+      }
+
+      .submit-btn:hover {
+        background: #6B5B45;
+        box-shadow: 0 4px 16px rgba(139, 115, 85, 0.35);
+        transform: translateY(-1px);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 1px 6px rgba(139, 115, 85, 0.2);
+      }
+
+      /* ==================== 留言列表 ==================== */
+      .message-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+
+      .message-item {
+        background: #fff;
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03),
+                    0 4px 16px rgba(139, 115, 85, 0.06);
+        animation: fadeInUp 0.4s ease-out both;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .message-item:hover {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05),
+                    0 6px 20px rgba(139, 115, 85, 0.1);
+      }
+
+      .message-text {
+        font-size: 14px;
+        color: #3d3027;
+        line-height: 1.6;
+        letter-spacing: 0.5px;
+      }
+
+      .message-time {
+        font-size: 12px;
+        color: #bfb5a5;
+        margin-top: 8px;
+        text-align: right;
+        letter-spacing: 0.5px;
+      }
+
+      /* ==================== 响应式适配 ==================== */
+      @media (max-width: 768px) {
+        .brand-name {
+          font-size: 36px;
+          letter-spacing: 4px;
+        }
+
+        .brand-slogan {
+          font-size: 16px;
+          letter-spacing: 1px;
+        }
+
+        .logo-wrapper {
+          width: 100px;
+          height: 100px;
+          margin-bottom: 20px;
+        }
+
+        .circle-1 {
+          width: 300px;
+          height: 300px;
+        }
+
+        .circle-2 {
+          width: 200px;
+          height: 200px;
+        }
+
+        .circle-3 {
+          width: 120px;
+          height: 120px;
+        }
+
+        .products-header {
+          padding: 16px 20px 14px;
+        }
+
+        .products-title {
+          font-size: 18px;
+          letter-spacing: 2px;
+        }
+
+        .carousel-wrapper {
+          padding: 24px 20px 20px;
+        }
+
+        .carousel-img-wrapper {
+          height: 280px;
+        }
+
+        .interact-header {
+          padding: 16px 20px 14px;
+        }
+
+        .interact-title {
+          font-size: 18px;
+          letter-spacing: 2px;
+        }
+
+        .interact-content {
+          padding: 24px 20px 40px;
+        }
+
+        .like-section {
+          padding: 28px 20px;
+        }
+
+        .like-icon-wrapper {
+          width: 70px;
+          height: 70px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .brand-name {
+          font-size: 28px;
+          letter-spacing: 3px;
+        }
+
+        .brand-subtitle {
+          font-size: 12px;
+          letter-spacing: 2px;
+        }
+
+        .brand-slogan {
+          font-size: 14px;
+        }
+
+        .logo-wrapper {
+          width: 80px;
+          height: 80px;
+          margin-bottom: 16px;
+        }
+
+        .home-nav {
+          margin-top: 36px;
+        }
+
+        .btn-primary {
+          padding: 12px 28px;
+          font-size: 14px;
+        }
+
+        .products-header {
+          padding: 12px 16px 10px;
+          gap: 12px;
+        }
+
+        .back-btn {
+          padding: 6px 12px;
+          font-size: 13px;
+        }
+
+        .back-btn span {
+          display: none;
+        }
+
+        .products-title {
+          font-size: 16px;
+        }
+
+        .products-subtitle {
+          font-size: 10px;
+        }
+
+        .carousel-wrapper {
+          padding: 16px 16px 16px;
+          gap: 20px;
+        }
+
+        .carousel-img-wrapper {
+          height: 220px;
+        }
+
+        .carousel-info {
+          padding: 16px 20px 20px;
+        }
+
+        .carousel-name {
+          font-size: 18px;
+        }
+
+        .carousel-desc {
+          font-size: 13px;
+        }
+
+        .carousel-btn {
+          width: 40px;
+          height: 40px;
+        }
+
+        .carousel-controls {
+          gap: 14px;
+        }
+
+        .interact-header {
+          padding: 12px 16px 10px;
+          gap: 12px;
+        }
+
+        .interact-title {
+          font-size: 16px;
+        }
+
+        .interact-subtitle {
+          font-size: 10px;
+        }
+
+        .interact-content {
+          padding: 16px 16px 32px;
+          gap: 24px;
+        }
+
+        .like-section {
+          padding: 24px 16px;
+        }
+
+        .like-icon-wrapper {
+          width: 60px;
+          height: 60px;
+        }
+
+        .like-icon-wrapper .like-heart {
+          width: 36px;
+          height: 36px;
+        }
+
+        .board-title {
+          font-size: 16px;
+        }
+
+        textarea {
+          height: 80px;
+          padding: 12px;
+          font-size: 13px;
+        }
+
+        .submit-btn {
+          padding: 8px 22px;
+          font-size: 13px;
+        }
+
+        .message-item {
+          padding: 12px;
+        }
+
+        .message-text {
+          font-size: 13px;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -126,7 +1048,6 @@
       function updateCarousel() {
         const item = products[currentIndex];
         const card = document.getElementById('carousel-card');
-        // 淡出
         card.style.opacity = '0';
         card.style.transform = 'scale(0.96)';
         setTimeout(function() {
@@ -134,7 +1055,6 @@
           document.getElementById('carousel-image').alt = item.name;
           document.getElementById('carousel-name').textContent = item.name;
           document.getElementById('carousel-desc').textContent = item.desc;
-          // 淡入
           card.style.opacity = '1';
           card.style.transform = 'scale(1)';
         }, 250);
