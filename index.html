@@ -378,6 +378,11 @@
       }
 
       /* ==================== 轮播卡片 ==================== */
+      .carousel-stage {
+        width: 100%;
+        position: relative;
+      }
+
       .carousel-card {
         width: 100%;
         background: #fff;
@@ -385,8 +390,16 @@
         overflow: hidden;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05),
                     0 12px 48px rgba(139, 115, 85, 0.1);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        animation: fadeInUp 0.6s ease-out both;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .carousel-card.active {
+        opacity: 1;
+        position: relative;
       }
 
       .carousel-img-wrapper {
@@ -973,13 +986,24 @@
         </div>
       </header>
       <div class="carousel-wrapper">
-        <div class="carousel-card" id="carousel-card">
-          <div class="carousel-img-wrapper">
-            <img id="carousel-image" src="./img/清香乌龙茶.png" alt="清香乌龙茶" class="carousel-img" />
+        <div class="carousel-stage">
+          <div class="carousel-card active" id="carousel-card-a">
+            <div class="carousel-img-wrapper">
+              <img src="./img/清香乌龙茶.png" alt="清香乌龙茶" class="carousel-img" />
+            </div>
+            <div class="carousel-info">
+              <h3 class="carousel-name">清香乌龙茶</h3>
+              <p class="carousel-desc">清雅回甘，茶香悠远</p>
+            </div>
           </div>
-          <div class="carousel-info">
-            <h3 class="carousel-name" id="carousel-name">清香乌龙茶</h3>
-            <p class="carousel-desc" id="carousel-desc">清雅回甘，茶香悠远</p>
+          <div class="carousel-card" id="carousel-card-b">
+            <div class="carousel-img-wrapper">
+              <img src="" alt="" class="carousel-img" />
+            </div>
+            <div class="carousel-info">
+              <h3 class="carousel-name"></h3>
+              <p class="carousel-desc"></p>
+            </div>
           </div>
         </div>
         <div class="carousel-controls">
@@ -1044,20 +1068,44 @@
 
       let currentIndex = 0;
       let autoTimer = null;
+      let isAnimating = false;
+      let activeCard = 'a'; // 当前显示的卡片
+
+      function getActiveCard() {
+        return document.getElementById('carousel-card-' + activeCard);
+      }
+
+      function getInactiveCard() {
+        return document.getElementById(activeCard === 'a' ? 'carousel-card-b' : 'carousel-card-a');
+      }
+
+      function setCardContent(card, item) {
+        card.querySelector('.carousel-img').src = item.img;
+        card.querySelector('.carousel-img').alt = item.name;
+        card.querySelector('.carousel-name').textContent = item.name;
+        card.querySelector('.carousel-desc').textContent = item.desc;
+      }
 
       function updateCarousel() {
+        if (isAnimating) return;
+        isAnimating = true;
         const item = products[currentIndex];
-        const card = document.getElementById('carousel-card');
-        card.style.opacity = '0';
-        card.style.transform = 'scale(0.96)';
+        const outCard = getActiveCard();
+        const inCard = getInactiveCard();
+
+        // 准备新卡片内容
+        setCardContent(inCard, item);
+
+        // 交叉淡入淡出：新卡片淡入，旧卡片淡出
+        inCard.classList.add('active');
+        outCard.classList.remove('active');
+
+        // 切换活跃卡片标记
+        activeCard = activeCard === 'a' ? 'b' : 'a';
+
         setTimeout(function() {
-          document.getElementById('carousel-image').src = item.img;
-          document.getElementById('carousel-image').alt = item.name;
-          document.getElementById('carousel-name').textContent = item.name;
-          document.getElementById('carousel-desc').textContent = item.desc;
-          card.style.opacity = '1';
-          card.style.transform = 'scale(1)';
-        }, 250);
+          isAnimating = false;
+        }, 600);
         updateDots();
       }
 
@@ -1157,6 +1205,7 @@
       // 默认显示主页
       switchPage('home-page');
       // 初始化轮播
+      setCardContent(getActiveCard(), products[0]);
       updateDots();
       resetAutoPlay();
     </script>
